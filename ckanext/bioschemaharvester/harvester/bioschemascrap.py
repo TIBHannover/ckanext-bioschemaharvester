@@ -333,7 +333,7 @@ class BioSchemaMUHarvester(HarvesterBase):
         exact_mass = content['monoisotopicMolecularWeight']
 
 
-        #extras.append({"key": "inchi", 'value' : standard_inchi})
+        extras.append({"key": "inchi", 'value' : standard_inchi})
         extras.append({"key": "inchi_key", 'value' : inchi_key})
         extras.append({"key": "smiles", 'value' : smiles})
         extras.append({'key': "exactmass", "value": exact_mass})

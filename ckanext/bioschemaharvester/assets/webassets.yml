@@ -1,0 +1,14 @@
+# bioschemaharvester-js:
+#   filter: rjsmin
+#   output: ckanext-bioschemaharvester/%(version)s-bioschemaharvester.js
+#   contents:
+#     - js/bioschemaharvester.js
+#   extra:
+#     preload:
+#       - base/main
+
+# bioschemaharvester-css:
+#   filter: cssrewrite
+#   output: ckanext-bioschemaharvester/%(version)s-bioschemaharvester.css
+#   contents:
+#     - css/bioschemaharvester.css

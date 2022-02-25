@@ -1,7 +1,7 @@
 import ast
 import datetime
 import json
-
+from dateutil.parser import parse
 
 import logging
 import random
@@ -88,33 +88,43 @@ class BioSchemaMUHarvester(HarvesterBase):
         """
 
         global datasetDict, molecularDict
-        log.debug("in fetch stage: %s" % harvest_object.guid)
 
-        the_id = harvest_object.guid
+        try:
+            log.debug("in fetch stage: %s" % harvest_object.guid)
 
-        referenceurl = "https://massbank.eu/MassBank/RecordDisplay?id="
-        dataset_url = referenceurl + the_id
+            the_id = harvest_object.guid
 
-        r = requests.get(dataset_url)
+            referenceurl = "https://massbank.eu/MassBank/RecordDisplay?id="
+            dataset_url = referenceurl + the_id
 
-        soup = BeautifulSoup(r.content, 'html.parser')
+            r = requests.get(dataset_url)
 
-        for node in soup.findAll("script", {"type": "application/ld+json"}):
-            script = ''.join(node.findAll(text=True))
-            # print(script)
-            data = re.sub(r'[\n ]+', ' ', script).strip()
-            # new_string = re.sub(r"['[]']", "", data)
-            finalvalue = ast.literal_eval(data)
-            if finalvalue is not None:
-                datasetDict = finalvalue[1]
-                molecularDict = finalvalue[0]
+            soup = BeautifulSoup(r.content, 'html.parser')
 
-            merge_dict = {**datasetDict,**molecularDict}
-            log.debug(merge_dict)
-            content = json.dumps(merge_dict)
+            for node in soup.findAll("script", {"type": "application/ld+json"}):
+                script = ''.join(node.findAll(text=True))
+                # print(script)
+                data = re.sub(r'[\n ]+', ' ', script).strip()
+                # new_string = re.sub(r"['[]']", "", data)
+                finalvalue = ast.literal_eval(data)
+                if finalvalue is not None:
+                    datasetDict = finalvalue[1]
+                    molecularDict = finalvalue[0]
 
-            harvest_object.content = content
-            harvest_object.save()
+                merge_dict = {**datasetDict,**molecularDict}
+                log.debug(merge_dict)
+                content = json.dumps(merge_dict)
+
+                harvest_object.content = content
+                harvest_object.save()
+        except (Exception) as e:
+            log.exception(e)
+            self._save_object_error(
+                "Exception in fetch stage for %s: %r / %s"
+                % (harvest_object.guid, e, traceback.format_exc()),
+                harvest_object,
+            )
+            return False
 
         return True
 
@@ -124,7 +134,7 @@ class BioSchemaMUHarvester(HarvesterBase):
         :param harvest_object: HarvestObject object
         :return: True if everything went well, False if errors were found
         """
-
+        global created,modified
         if not harvest_object:
             log.error("No harvest object received")
             self._save_object_error("No harvest object received")
@@ -168,14 +178,6 @@ class BioSchemaMUHarvester(HarvesterBase):
             package_dict['notes'] = content['description']
             package_dict['license_id'] = content['license']
 
-
-            # TODO: date string to isoformat not convertable. Think for a solution
-            # convert date string to isoformat for metadata created and modified
-            #modified = content['dateModified']
-            #package_dict['metadata_modified'] = datetime.date.today()
-            #created = content['dateCreated']
-            #package_dict['metadata_created'] = date.fromisoformat(created)
-
             extras = self._extract_extras_image(package= package_dict,content= content)
             package_dict['extras'] = extras
 
@@ -197,9 +199,13 @@ class BioSchemaMUHarvester(HarvesterBase):
 
         except Exception as e:
             log.exception(e)
+            self._save_object_error(
+                "Exception in fetch stage for %s: %r / %s"
+                % (harvest_object.guid, e, traceback.format_exc()),
+                harvest_object,
+            )
             return False
         return True
-
 
 
     # This function to get dataset urls of given sitemap
@@ -332,12 +338,10 @@ class BioSchemaMUHarvester(HarvesterBase):
         smiles = content['smiles']
         exact_mass = content['monoisotopicMolecularWeight']
 
-
         extras.append({"key": "inchi", 'value' : standard_inchi})
         extras.append({"key": "inchi_key", 'value' : inchi_key})
         extras.append({"key": "smiles", 'value' : smiles})
         extras.append({'key': "exactmass", "value": exact_mass})
-
 
 
         if standard_inchi.startswith('InChI'):
@@ -352,6 +356,30 @@ class BioSchemaMUHarvester(HarvesterBase):
                 #    log.debug("Image Already exists")
             except (FileExistsError, PermissionError) as e:
                 log.debug(e)
+
+        # extracting date metadata as extra data.
+        try:
+            if content['datePublished']:
+                published = content['datePublished']
+                date_value = parse(published)
+                date_without_tz = date_value.replace(tzinfo=None)
+                value = date_without_tz.isoformat()
+                extras.append({"key": "datePublished", "value": value})
+            if content['dateCreated']:
+                created = content['dateCreated']
+                date_value = parse(created)
+                date_without_tz = date_value.replace(tzinfo=None)
+                value = date_without_tz.isoformat()
+                extras.append({"key": "dateCreated", "value": value})
+            if content['dateModified']:
+                modified = content['dateModified']
+                date_value = parse(modified)
+                date_without_tz = date_value.replace(tzinfo=None)
+                value = date_without_tz.isoformat()
+                extras.append({"key": "dateModified", "value": value})
+        except Exception:
+            pass
+
         return extras
 
 
@@ -410,4 +438,8 @@ class BioSchemaMUHarvester(HarvesterBase):
         con.close()
         log.debug('data sent to db')
         return 0
+
+
+
+
 

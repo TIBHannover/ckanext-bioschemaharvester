@@ -177,7 +177,8 @@ class BioSchemaMUHarvester(HarvesterBase):
 
             # add notes, license_id
             package_dict['notes'] = content['description']
-            package_dict['license_id'] = content['license']
+            package_dict["license_id"] = self._extract_license_id(context=context, content=content)
+            log.debug(f'This is the license {package_dict["license_id"]}')
 
             extras = self._extract_extras_image(package= package_dict,content= content)
             package_dict['extras'] = extras
@@ -383,6 +384,17 @@ class BioSchemaMUHarvester(HarvesterBase):
             pass
 
         return extras
+
+    def _extract_license_id(self, context, content):
+        package_license = None
+        content_license = content['license']
+        license_list = get_action('license_list')(context.copy(), {})
+        for license_name in license_list:
+
+            if content_license == license_name['id'] or content_license == license_name['url'] or content_license == license_name['title']:
+                package_license = license_name['id']
+
+        return package_license
 
 
     def _send_to_db(self,package,content):

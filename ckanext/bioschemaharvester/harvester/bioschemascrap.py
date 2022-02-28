@@ -4,6 +4,7 @@ import json
 from dateutil.parser import parse
 
 import logging
+import os.path
 import random
 from urllib.error import HTTPError
 import traceback
@@ -349,13 +350,14 @@ class BioSchemaMUHarvester(HarvesterBase):
             log.debug("Molecule generated")
             try:
                 filepath = '/var/lib/ckan/default/storage/images/' + str(inchi_key) + '.png'
-                #if not filepath:
-                Draw.MolToFile(molecu, filepath)
-                log.debug("Molecule Image generated for %s", package_id)
-                #else:
-                #    log.debug("Image Already exists")
-            except (FileExistsError, PermissionError) as e:
-                log.debug(e)
+                if os.path.isfile(filepath):
+                    log.debug("Image Already exists")
+                else:
+                    Draw.MolToFile(molecu, filepath)
+                    log.debug("Molecule Image generated for %s", package_id)
+
+            except Exception as e:
+                log.error(e)
 
         # extracting date metadata as extra data.
         try:

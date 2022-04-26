@@ -36,22 +36,22 @@ Compatibility with core CKAN versions:
 
 To install ckanext-bioschemaharvester:
 
-1. Activate your CKAN virtual environment, for example:
+Activate your CKAN virtual environment, for example:
 
      . /usr/lib/ckan/default/bin/activate
 
-2. Clone the source and install it on the virtualenv
+Clone the source and install it on the virtualenv
 
     git clone https://github.com/bhavin2897/ckanext-bioschemaharvester.git
     cd ckanext-bioschemaharvester
     pip install -e .
 	pip install -r requirements.txt
 
-3. Add `bioschemaharvester` to the `ckan.plugins` setting in your CKAN
+Add `bioschemaharvester` to the `ckan.plugins` setting in your CKAN
    config file (by default the config file is located at
    `/etc/ckan/default/ckan.ini`).
 
-4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu:
+Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu:
 
      sudo service apache2 reload
 
@@ -79,18 +79,18 @@ NOTE: Before installing and harvesting, it is assummed that you already have ins
 - [RDKit Visuals](https://github.com/bhavin2897/ckanext-rdkit-visuals)
 - [Related Resources](https://github.com/bhavin2897/ckanext-related_resources)
 
-- The harvest Source CAN be a Sitemap, Sitemaps or single web page, containing bioschema in JSON-LD format and available to scrap.
+The harvest Source CAN be a Sitemap, Sitemaps or single web page, containing bioschema in JSON-LD format and available to scrap.
 Source Example: https://massbank.eu/MassBank/sitemapindex.xml
 
 No need to add any information to the configuartion text.
 
-- Choose Bioschema Scrapper/Harvester 
+Choose Bioschema Scrapper/Harvester 
 
-- Save  
+Save  
 
-- Run Harvester `ckan -c /etc/ckan/default/ckan.ini harvester run`, if you running on development/production server. 
+Run Harvester `ckan -c /etc/ckan/default/ckan.ini harvester run`, if you running on development/production server. 
 
-- Else if you are running locally, follow regular hravetsing process. 
+Else if you are running locally, follow regular hravetsing process. 
 
 	ckan -c /etc/ckan/default/ckan.ini harvester gather-consumer
 	

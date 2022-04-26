@@ -4,9 +4,12 @@
 
 This plug-in is an extension to CKAN Harvester to harvest (bio)schema  datasets from repositories using (bio)schema. Example: [MassBank Repo](https://massbank.eu/MassBank/)
 
+This harvester is developed using the offical CKAN Harvester https://github.com/ckan/ckanext-harvest 
+following the actual Harvest Interface of gather, fetch and import techniques. 
+
 When installed, you can see an option to use as `BioSchema Scrapper/Harvest`
 
-[Harvest Page Screnshot]![Screenshot from 2022-04-26 13-55-13](https://user-images.githubusercontent.com/70484813/165295076-874351a5-1086-477c-8b67-997992dafb5d.png)
+![Screenshot from 2022-04-26 13-55-13](https://user-images.githubusercontent.com/70484813/165295076-874351a5-1086-477c-8b67-997992dafb5d.png)
 
 
 As name suggests, this harvester is more of a web-scrapper. It is developed using Beautiful scoop to harvest/fetch metadata from HTML page of the dataset (tested only on MassBank Repo)
@@ -53,10 +56,6 @@ To install ckanext-bioschemaharvester:
      sudo service apache2 reload
 
 
-## Config settings
-
-None at present
-
 ## Developer installation
 
 To install ckanext-bioschemaharvester for development, activate your CKAN virtualenv and
@@ -73,6 +72,31 @@ Restart Server if you are using Supervisor and Nginx
 	sudo service nginx reload
 
 
+## Harvesting 
+
+NOTE: Before installing and harvesting, it is assummed that you already have installed 
+- [CKAN Harvester](https://github.com/ckan/ckanext-harvest)   
+- [RDKit Visuals](https://github.com/bhavin2897/ckanext-rdkit-visuals)
+- [Related Resources](https://github.com/bhavin2897/ckanext-related_resources)
+
+- The harvest Source CAN be a Sitemap, Sitemaps or single web page, containing bioschema in JSON-LD format and available to scrap.
+Source Example: https://massbank.eu/MassBank/sitemapindex.xml
+
+No need to add any information to the configuartion text.
+
+- Choose Bioschema Scrapper/Harvester 
+
+- Save  
+
+- Run Harvester `ckan -c /etc/ckan/default/ckan.ini harvester run`, if you running on development/production server. 
+
+- Else if you are running locally, follow regular hravetsing process. 
+
+	ckan -c /etc/ckan/default/ckan.ini harvester gather-consumer
+	
+	ckan -c /etc/ckan/default/ckan.ini harvester fetch-consumer
+	
+	ckan -c /etc/ckan/default/ckan.ini harvester run
 
 ## Tests
 

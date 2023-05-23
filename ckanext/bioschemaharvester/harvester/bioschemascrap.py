@@ -118,6 +118,7 @@ class BioSchemaMUHarvester(HarvesterBase):
 
                 harvest_object.content = content
                 harvest_object.save()
+
         except (Exception) as e:
             log.exception(e)
             self._save_object_error(

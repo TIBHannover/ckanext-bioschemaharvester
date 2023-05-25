@@ -262,7 +262,6 @@ class BioSchemaMUHarvester(HarvesterBase):
                 done.append(self.scrape_new(url))
                 log.debug("Gathered URL & identifier")
 
-
         except:
             return log.debug('missing data')
 

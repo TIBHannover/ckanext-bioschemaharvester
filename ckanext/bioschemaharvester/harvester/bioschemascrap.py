@@ -46,7 +46,7 @@ DB_pwd = "123456789"
 
 class BioSchemaMUHarvester(HarvesterBase):
     """ Trying use this extension to scarp data from available sitemap URLs.
-    In this extension we map scrapped data with CKAN and Bioschema.org """
+    In this extension we map scrapped data with CKAN and Bioschema.org from Massbank (Only through scrapping) """
 
     def info(self):
         """

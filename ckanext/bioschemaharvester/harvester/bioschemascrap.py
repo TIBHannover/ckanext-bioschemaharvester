@@ -397,7 +397,7 @@ class BioSchemaMUHarvester(HarvesterBase):
 
         return package_license
 
-
+    ''' To send data to database '''
     def _send_to_db(self,package,content):
 
         name_list = []

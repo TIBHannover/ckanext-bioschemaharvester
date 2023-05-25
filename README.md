@@ -2,13 +2,25 @@
 
 # ckanext-bioschemaharvester
 
-**TODO:** Put a description of your extension here:  What does it do? What features does it have? Consider including some screenshots or embedding a video!
+This plug-in is an extension to CKAN Harvester to harvest (bio)schema  datasets from repositories using (bio)schema. Example: [MassBank Repo](https://massbank.eu/MassBank/)
+
+This harvester is developed using the offical CKAN Harvester https://github.com/ckan/ckanext-harvest 
+following the actual Harvest Interface of gather, fetch and import techniques. 
+
+When installed, you can see an option to use as `BioSchema Scrapper/Harvest`
+
+![Screenshot from 2022-04-26 13-55-13](https://user-images.githubusercontent.com/70484813/165295076-874351a5-1086-477c-8b67-997992dafb5d.png)
+
+
+As name suggests, this harvester is more of a web-scrapper. It is developed using Beautiful scoop to harvest/fetch metadata from HTML page of the dataset (tested only on MassBank Repo)
+
+Note: This plugin uses migrated tables from other plugin to store metadata  to desired metadata tables without overwriting default ckan tables in the database. So, see that you already have these tables in your ckan instance.
+
+- https://github.com/bhavin2897/ckanext-rdkit-visuals
+- https://github.com/bhavin2897/ckanext-related_resources
 
 
 ## Requirements
-
-**TODO:** For example, you might want to mention here which versions of CKAN this
-extension works with.
 
 If your extension works across different versions you can add the following table:
 
@@ -16,56 +28,32 @@ Compatibility with core CKAN versions:
 
 | CKAN version    | Compatible?   |
 | --------------- | ------------- |
-| 2.6 and earlier | not tested    |
-| 2.7             | not tested    |
-| 2.8             | not tested    |
+| 2.8 & eariler   | not tested    |
 | 2.9             | yes           |
-
-Suggested values:
-
-* "yes"
-* "not tested" - I can't think of a reason why it wouldn't work
-* "not yet" - there is an intention to get it working
-* "no"
 
 
 ## Installation
 
-**TODO:** Add any additional install steps to the list below.
-   For example installing any non-Python dependencies or adding any required
-   config settings.
-
 To install ckanext-bioschemaharvester:
 
-1. Activate your CKAN virtual environment, for example:
+Activate your CKAN virtual environment, for example:
 
      . /usr/lib/ckan/default/bin/activate
 
-2. Clone the source and install it on the virtualenv
+Clone the source and install it on the virtualenv
 
-    git clone https://github.com/TIB/ckanext-bioschemaharvester.git
+    git clone https://github.com/bhavin2897/ckanext-bioschemaharvester.git
     cd ckanext-bioschemaharvester
     pip install -e .
 	pip install -r requirements.txt
 
-3. Add `bioschemaharvester` to the `ckan.plugins` setting in your CKAN
+Add `bioschemaharvester` to the `ckan.plugins` setting in your CKAN
    config file (by default the config file is located at
    `/etc/ckan/default/ckan.ini`).
 
-4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu:
+Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu:
 
      sudo service apache2 reload
-
-
-## Config settings
-
-None at present
-
-**TODO:** Document any optional config settings here. For example:
-
-	# The minimum number of hours to wait before re-checking a resource
-	# (optional, default: 24).
-	ckanext.bioschemaharvester.some_setting = some_default_value
 
 
 ## Developer installation
@@ -76,8 +64,39 @@ do:
     git clone https://github.com/TIB/ckanext-bioschemaharvester.git
     cd ckanext-bioschemaharvester
     python setup.py develop
-    pip install -r dev-requirements.txt
+    pip install -r requirements.txt
+    
+Restart Server if you are using Supervisor and Nginx
 
+	sudo service supervisor reload
+	sudo service nginx reload
+
+
+## Harvesting 
+
+NOTE: Before installing and harvesting, it is assummed that you already have installed 
+- [CKAN Harvester](https://github.com/ckan/ckanext-harvest)   
+- [RDKit Visuals](https://github.com/bhavin2897/ckanext-rdkit-visuals)
+- [Related Resources](https://github.com/bhavin2897/ckanext-related_resources)
+
+The harvest Source CAN be a Sitemap, Sitemaps or single web page, containing bioschema in JSON-LD format and available to scrap.
+Source Example: https://massbank.eu/MassBank/sitemapindex.xml
+
+No need to add any information to the configuartion text.
+
+Choose Bioschema Scrapper/Harvester 
+
+Save  
+
+Run Harvester `ckan -c /etc/ckan/default/ckan.ini harvester run`, if you running on development/production server. 
+
+Else if you are running locally, follow regular hravetsing process. 
+
+	ckan -c /etc/ckan/default/ckan.ini harvester gather-consumer
+	
+	ckan -c /etc/ckan/default/ckan.ini harvester fetch-consumer
+	
+	ckan -c /etc/ckan/default/ckan.ini harvester run
 
 ## Tests
 

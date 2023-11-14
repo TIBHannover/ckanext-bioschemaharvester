@@ -160,9 +160,9 @@ class BioSchemaMUHarvester(HarvesterBase):
             # get id
             package_dict["id"] = munge_title_to_name(harvest_object.guid)
 
-            package_dict['name'] = package_dict['id']
+            package_dict['name'] = package_dict['name']
 
-            package_dict["title"] = content['headline']
+            package_dict["title"] = content['name']
             package_dict['url'] = content['url']
 
             # add owner org
@@ -181,7 +181,7 @@ class BioSchemaMUHarvester(HarvesterBase):
             package_dict["license_id"] = self._extract_license_id(context=context, content=content)
             log.debug(f'This is the license {package_dict["license_id"]}')
 
-            extras = self._extract_extras_image(package= package_dict,content= content)
+            extras = self._extract_extras_image(package= package_dict,content_hasBioPart= content)
             package_dict['extras'] = extras
 
             tags = self._extract_tags(content)
@@ -322,7 +322,9 @@ class BioSchemaMUHarvester(HarvesterBase):
     def _extract_tags(self,content):
         tags = []
 
-        technique = [content['measurementTechnique']]
+        technique_measure = [content['measurementTechnique']]
+        technique = technique_measure[0]['name']
+
         log.debug(f'this is technia {technique}')
         if technique:
             tags.extend(technique)
@@ -330,13 +332,15 @@ class BioSchemaMUHarvester(HarvesterBase):
         tags = [{"name": munge_tag(tag[:100])} for tag in tags]
         return tags
 
-    def _extract_extras_image(self,package,content):
+    def _extract_extras_image(self,package,content_hasBioPart):
         extras = []
         package_id = package['id']
 
+        content = content_hasBioPart['hasBioChemEntityPart'][0]
+
         standard_inchi = content['inChI']
 
-        inchi_key = content['inchikey']
+        inchi_key = content['inChIKey']
         smiles = content['smiles']
         exact_mass = content['monoisotopicMolecularWeight']
 
@@ -401,12 +405,15 @@ class BioSchemaMUHarvester(HarvesterBase):
 
         name_list = []
         package_id = package['id']
-        standard_inchi = content['inChI']
 
-        inchi_key = content['inchikey']
-        smiles = content['smiles']
-        exact_mass = content['monoisotopicMolecularWeight']
-        mol_formula = content['molecularFormula']
+        content_hasBioPart = content['hasBioChemEntityPart'][0]
+
+        standard_inchi = content_hasBioPart['inChI']
+
+        inchi_key = content_hasBioPart['inChIKey']
+        smiles = content_hasBioPart['smiles']
+        exact_mass = content_hasBioPart['monoisotopicMolecularWeight']
+        mol_formula = content_hasBioPart['molecularFormula']
 
         # To harvest alternate Names and define them to list such that they can be dumped to database
         alternatenames = content['alternateName']

@@ -324,7 +324,8 @@ class BioSchemaMUHarvester(HarvesterBase):
         tags = []
 
         technique_measure = [content['measurementTechnique']]
-        technique = technique_measure[0]['name']
+        technique0 = technique_measure[0][0]
+        technique = technique0['name']
 
         log.debug(f'this is technia {technique}')
         if technique:

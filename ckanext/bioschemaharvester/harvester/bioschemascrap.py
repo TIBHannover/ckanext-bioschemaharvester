@@ -183,6 +183,12 @@ class BioSchemaMUHarvester(HarvesterBase):
 
             extras = self._extract_extras_image(package= package_dict,content_hasBioPart= content)
             package_dict['extras'] = extras
+            content_hasBioPart = content['hasBioChemEntityPart'][0]
+
+            package_dict['inchi'] = content_hasBioPart['inchi']
+            package_dict['inchi_key'] = content['inChIKey']
+            package_dict['smiles'] = content['smiles']
+            package_dict['exact_mass'] = content['monoisotopicMolecularWeight']
 
             tags = self._extract_tags(content)
             package_dict['tags'] = tags
@@ -335,7 +341,7 @@ class BioSchemaMUHarvester(HarvesterBase):
         return tags
 
     def _extract_extras_image(self,package,content_hasBioPart):
-        extras = []
+        #extras = []
         package_id = package['id']
 
         content = content_hasBioPart['hasBioChemEntityPart'][0]
@@ -343,13 +349,15 @@ class BioSchemaMUHarvester(HarvesterBase):
         standard_inchi = content['inChI']
 
         inchi_key = content['inChIKey']
-        smiles = content['smiles']
-        exact_mass = content['monoisotopicMolecularWeight']
+        #smiles = content['smiles']
+        #exact_mass = content['monoisotopicMolecularWeight']
 
-        extras.append({"key": "inchi", 'value' : standard_inchi})
-        extras.append({"key": "inchi_key", 'value' : inchi_key})
-        extras.append({"key": "smiles", 'value' : smiles})
-        extras.append({'key': "exactmass", "value": exact_mass})
+
+        #extras.append({"key": "inchi", 'value' : standard_inchi})
+        #extras.append({"key": "inchi_key", 'value' : inchi_key})
+        #extras.append({"key": "smiles", 'value' : smiles})
+        #extras.append({'key': "exactmass", "value": exact_mass})
+
 
 
         if standard_inchi.startswith('InChI'):
@@ -367,29 +375,31 @@ class BioSchemaMUHarvester(HarvesterBase):
                 log.error(e)
 
         # extracting date metadata as extra data.
-        try:
-            if content['datePublished']:
-                published = content['datePublished']
-                date_value = parse(published)
-                date_without_tz = date_value.replace(tzinfo=None)
-                value = date_without_tz.isoformat()
-                extras.append({"key": "datePublished", "value": value})
-            if content['dateCreated']:
-                created = content['dateCreated']
-                date_value = parse(created)
-                date_without_tz = date_value.replace(tzinfo=None)
-                value = date_without_tz.isoformat()
-                extras.append({"key": "dateCreated", "value": value})
-            if content['dateModified']:
-                modified = content['dateModified']
-                date_value = parse(modified)
-                date_without_tz = date_value.replace(tzinfo=None)
-                value = date_without_tz.isoformat()
-                extras.append({"key": "dateModified", "value": value})
-        except Exception:
-            pass
+        #try:
+        #    if content['datePublished']:
+        #        published = content['datePublished']
+        #        date_value = parse(published)
+        #        date_without_tz = date_value.replace(tzinfo=None)
+        #        value = date_without_tz.isoformat()
+        #        extras.append({"key": "datePublished", "value": value})
+        #    if content['dateCreated']:
+        #        created = content['dateCreated']
+        #        date_value = parse(created)
+        #        date_without_tz = date_value.replace(tzinfo=None)
+        #        value = date_without_tz.isoformat()
+        #        extras.append({"key": "dateCreated", "value": value})
+        #    if content['dateModified']:
+        #        modified = content['dateModified']
+        #        date_value = parse(modified)
+        #        date_without_tz = date_value.replace(tzinfo=None)
+        #        value = date_without_tz.isoformat()
+        #        extras.append({"key": "dateModified", "value": value})
+        #except Exception:
+        #    pass
+        #
+        #return extras
 
-        return extras
+        return None
 
     def _extract_license_id(self, context, content):
         package_license = None

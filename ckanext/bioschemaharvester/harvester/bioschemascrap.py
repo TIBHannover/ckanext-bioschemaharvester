@@ -160,7 +160,7 @@ class BioSchemaMUHarvester(HarvesterBase):
             # get id
             package_dict["id"] = munge_title_to_name(harvest_object.guid)
 
-            package_dict['name'] = package_dict['name']
+            package_dict['name'] = content['name']
 
             package_dict["title"] = content['name']
             package_dict['url'] = content['url']

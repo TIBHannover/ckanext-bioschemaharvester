@@ -185,7 +185,7 @@ class BioSchemaMUHarvester(HarvesterBase):
             package_dict['extras'] = extras
             #content_hasBioPart = content['hasBioChemEntityPart'][0]
 
-            log.debug(package_dict.keys())
+            log.debug(package_dict['validated_data_dict'])
 
             #package_dict['inchi'] = content_hasBioPart['inchi']
             #package_dict['inchi_key'] = content['inChIKey']
@@ -336,10 +336,11 @@ class BioSchemaMUHarvester(HarvesterBase):
         technique = technique0['name']
 
         log.debug(f'this is technia {technique}')
-        if technique:
-            tags.extend(technique)
+        
+        #if technique:
+        #    tags.extend(technique)
 
-        tags = [{"name": munge_tag(tag[:100])} for tag in tags]
+        tags = [{"name": munge_tag(tags[:100])}]#for tag in tags]
         return tags
 
     def _extract_extras_image(self,package,content_hasBioPart):

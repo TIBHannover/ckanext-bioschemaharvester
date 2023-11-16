@@ -185,10 +185,12 @@ class BioSchemaMUHarvester(HarvesterBase):
             package_dict['extras'] = extras
             content_hasBioPart = content['hasBioChemEntityPart'][0]
 
+            log.debug(package_dict.keys())
+
             package_dict['inchi'] = content_hasBioPart['inchi']
             package_dict['inchi_key'] = content['inChIKey']
             package_dict['smiles'] = content['smiles']
-            package_dict['exact_mass'] = content['monoisotopicMolecularWeight']
+            package_dict['exactmass'] = content['monoisotopicMolecularWeight']
 
             tags = self._extract_tags(content)
             package_dict['tags'] = tags

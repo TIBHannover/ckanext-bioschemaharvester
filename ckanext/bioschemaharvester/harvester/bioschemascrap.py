@@ -185,7 +185,7 @@ class BioSchemaMUHarvester(HarvesterBase):
             package_dict['extras'] = extras
             #content_hasBioPart = content['hasBioChemEntityPart'][0]
 
-            log.debug(package_dict['validated_data_dict'])
+            #log.debug(package_dict['validated_data_dict'])
 
             #package_dict['inchi'] = content_hasBioPart['inchi']
             #package_dict['inchi_key'] = content['inChIKey']

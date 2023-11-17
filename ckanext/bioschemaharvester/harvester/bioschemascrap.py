@@ -448,24 +448,29 @@ class BioSchemaMUHarvester(HarvesterBase):
 
         con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
-        values = [package_id, json.dumps(standard_inchi), smiles, inchi_key, exact_mass,mol_formula]
+        values = [json.dumps(standard_inchi), smiles, inchi_key, exact_mass,mol_formula]
 
         # Cursor
         cur = con.cursor()
+        cur2 = con.cursor()
 
         # Check if the row already exists, if not then INSERT
 
-        cur.execute("SELECT * FROM molecule_data WHERE package_id = %s", (package_id,))
+        cur.execute("SELECT molecules_id FROM molecule_rel_data WHERE package_id = %s", (package_id,))
         if cur.fetchone() is None:
-            cur.execute("INSERT INTO molecule_data VALUES (nextval('molecule_data_id_seq'),%s,%s,%s,%s,%s,%s)", values)
+            cur.execute("INSERT INTO molecules VALUES (nextval('molecule_data_id_seq'),%s,%s,%s,%s,%s)", values)
+            new_molecule_id = cur.fetchone()[0]
+            cur2.execute("INSERT INTO molecule_rel_data (molecule_id, package_id) VALUES (%s, %s)",
+                         (new_molecule_id, package_id))
 
-        cur2 = con.cursor()
+        cur3 = con.cursor()
 
         for name in name_list:
-            cur2.execute("SELECT * FROM related_resources WHERE package_id = %s AND alternate_name = %s;", name)
-            log.debug(f'db to {name}')
-            if cur2.fetchone() is None:
-                cur2.execute("INSERT INTO related_resources(id,package_id,alternate_name) VALUES(nextval('related_resources_id_seq'),%s,%s)", name)
+            cur3.execute("SELECT * FROM related_resources WHERE package_id = %s AND alternate_name = %s;", name)
+            #log.debug(f'db to {name}')
+            if cur3.fetchone() is None:
+                cur3.execute("INSERT INTO related_resources(id,package_id,alternate_name) VALUES(nextval('related_resources_id_seq'),%s,%s)", name)
+
         # commit cursor
         con.commit()
         # close cursor

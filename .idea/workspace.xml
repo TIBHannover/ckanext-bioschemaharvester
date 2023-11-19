@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="insert data into new tables.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester/bioschemascrap.py" beforeDir="false" afterPath="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester/bioschemascrap.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -231,7 +230,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700229234348</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="insert data into new tables.">
+      <created>1700417070756</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1700417070756</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

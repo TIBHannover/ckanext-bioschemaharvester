@@ -90,6 +90,8 @@ class BioSchemaMUHarvester(HarvesterBase):
 
         global datasetDict, molecularDict
 
+        self._create_or_update_package()
+
         try:
             log.debug("in fetch stage: %s" % harvest_object.guid)
 
@@ -189,7 +191,7 @@ class BioSchemaMUHarvester(HarvesterBase):
 
             #log.debug(package_dict['validated_data_dict'])
 
-            package_dict['inchi'] = content_hasBioPart['inchi']
+            package_dict['inchi'] = content_hasBioPart['inChI']
             package_dict['inchi_key'] = content_hasBioPart['inChIKey']
             package_dict['smiles'] = content_hasBioPart['smiles']
             package_dict['exactmass'] = content_hasBioPart['monoisotopicMolecularWeight']

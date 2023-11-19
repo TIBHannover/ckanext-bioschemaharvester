@@ -181,8 +181,8 @@ class BioSchemaMUHarvester(HarvesterBase):
             package_dict["license_id"] = self._extract_license_id(context=context, content=content)
             log.debug(f'This is the license {package_dict["license_id"]}')
 
-            extras = self._extract_extras_image(package= package_dict,content_hasBioPart= content)
-            package_dict['extras'] = extras
+            #extras = self._extract_extras_image(package= package_dict,content_hasBioPart= content)
+            #package_dict['extras'] = extras
             #content_hasBioPart = content['hasBioChemEntityPart'][0]
 
             #log.debug(package_dict['validated_data_dict'])
@@ -456,7 +456,7 @@ class BioSchemaMUHarvester(HarvesterBase):
 
         # Check if the row already exists, if not then INSERT
 
-        cur.execute("SELECT molecules_id FROM molecule_rel_data WHERE package_id = %s", (package_id,))
+        cur.execute("SELECT id FROM molecules WHERE inchi_key = %s", (inchi_key,))
         if cur.fetchone() is None:
             cur.execute("INSERT INTO molecules VALUES (nextval('molecule_data_id_seq'),%s,%s,%s,%s,%s)", values)
             new_molecule_id = cur.fetchone()[0]

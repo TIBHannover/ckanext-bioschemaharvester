@@ -181,8 +181,8 @@ class BioSchemaMUHarvester(HarvesterBase):
             package_dict["license_id"] = self._extract_license_id(context=context, content=content)
             log.debug(f'This is the license {package_dict["license_id"]}')
 
-            #extras = self._extract_extras_image(package= package_dict,content_hasBioPart= content)
-            #package_dict['extras'] = extras
+            extras = self._extract_extras_image(package= package_dict,content_hasBioPart= content)
+            package_dict['extras'] = extras
             #content_hasBioPart = content['hasBioChemEntityPart'][0]
 
             #log.debug(package_dict['validated_data_dict'])
@@ -342,7 +342,7 @@ class BioSchemaMUHarvester(HarvesterBase):
         #if technique:
         #    tags.extend(technique)
 
-        tags = [{"name": munge_tag(tags[:100])}]#for tag in tags]
+        tags = [{"name": munge_tag(technique[:100])}]# for tag in tags]
         return tags
 
     def _extract_extras_image(self,package,content_hasBioPart):
@@ -402,6 +402,7 @@ class BioSchemaMUHarvester(HarvesterBase):
         except Exception:
             pass
 
+        log.debug(f"Data saved to extras {extras}")
         return extras
 
         #return None

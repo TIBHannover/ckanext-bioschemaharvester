@@ -195,7 +195,7 @@ class BioSchemaMUHarvester(HarvesterBase):
             tags = self._extract_tags(content)
             package_dict['tags'] = tags
 
-            log.debug(f'Key for package_dict: {package_dict.keys}')
+            log.debug(f'Key for package_dict: {package_dict.keys()}')
 
             # creating package
             log.debug("Create/update package using dict: %s" % package_dict)

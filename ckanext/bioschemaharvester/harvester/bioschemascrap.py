@@ -90,8 +90,6 @@ class BioSchemaMUHarvester(HarvesterBase):
 
         global datasetDict, molecularDict
 
-        self._create_or_update_package()
-
         try:
             log.debug("in fetch stage: %s" % harvest_object.guid)
 

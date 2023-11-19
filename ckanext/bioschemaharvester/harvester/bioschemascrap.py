@@ -181,16 +181,28 @@ class BioSchemaMUHarvester(HarvesterBase):
             package_dict["license_id"] = self._extract_license_id(context=context, content=content)
             log.debug(f'This is the license {package_dict["license_id"]}')
 
-            extras = self._extract_extras_image(package= package_dict,content_hasBioPart= content)
-            package_dict['extras'] = extras
-            #content_hasBioPart = content['hasBioChemEntityPart'][0]
+            #extras = \
+            self._extract_extras_image(package= package_dict,content_hasBioPart= content)
+
+            #package_dict['extras'] = extras
+            content_hasBioPart = content['hasBioChemEntityPart'][0]
 
             #log.debug(package_dict['validated_data_dict'])
 
-            #package_dict['inchi'] = content_hasBioPart['inchi']
-            #package_dict['inchi_key'] = content['inChIKey']
-            #package_dict['smiles'] = content['smiles']
-            #package_dict['exactmass'] = content['monoisotopicMolecularWeight']
+            package_dict['inchi'] = content_hasBioPart['inchi']
+            package_dict['inchi_key'] = content_hasBioPart['inChIKey']
+            package_dict['smiles'] = content_hasBioPart['smiles']
+            package_dict['exactmass'] = content_hasBioPart['monoisotopicMolecularWeight']
+            package_dict['mol_formula'] = content_hasBioPart['molecularFormula']
+
+            #package_dict['doi'] = content_hasBioPart['doi']
+            #package_dict['measurement_technique'] = content['']
+
+            #package_dict['metadata_created']    = content['']
+
+            #package_dict['metadata_modified'] = content['']
+
+
 
             tags = self._extract_tags(content)
             package_dict['tags'] = tags
@@ -348,20 +360,20 @@ class BioSchemaMUHarvester(HarvesterBase):
     def _extract_extras_image(self,package,content_hasBioPart):
         extras = []
         package_id = package['id']
-
+        #
         content = content_hasBioPart['hasBioChemEntityPart'][0]
-
+        #
         standard_inchi = content['inChI']
-
+        #
         inchi_key = content['inChIKey']
-        smiles = content['smiles']
-        exact_mass = content['monoisotopicMolecularWeight']
-
-
-        extras.append({"key": "inchi", 'value' : standard_inchi})
-        extras.append({"key": "inchi_key", 'value' : inchi_key})
-        extras.append({"key": "smiles", 'value' : smiles})
-        extras.append({'key': "exactmass", "value": exact_mass})
+        #smiles = content['smiles']
+        #exact_mass = content['monoisotopicMolecularWeight']
+        #
+        #
+        #extras.append({"key": "inchi", 'value' : standard_inchi})
+        #extras.append({"key": "inchi_key", 'value' : inchi_key})
+        #extras.append({"key": "smiles", 'value' : smiles})
+        #extras.append({'key': "exactmass", "value": exact_mass})
 
 
 
@@ -403,9 +415,9 @@ class BioSchemaMUHarvester(HarvesterBase):
             pass
 
         log.debug(f"Data saved to extras {extras}")
-        return extras
+        #return extras
 
-        #return None
+        return None
 
     def _extract_license_id(self, context, content):
         package_license = None

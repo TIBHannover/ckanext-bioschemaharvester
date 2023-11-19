@@ -181,26 +181,33 @@ class BioSchemaMUHarvester(HarvesterBase):
             package_dict["license_id"] = self._extract_license_id(context=context, content=content)
             log.debug(f'This is the license {package_dict["license_id"]}')
 
-            #extras = \
             self._extract_extras_image(package= package_dict,content_hasBioPart= content)
 
+            package_dict['author'] = content['citation']
+
             #package_dict['extras'] = extras
+
+            # Chemical information by extracting BioChemEntity
             content_hasBioPart = content['hasBioChemEntityPart'][0]
-
-            #log.debug(package_dict['validated_data_dict'])
-
             package_dict['inchi'] = content_hasBioPart['inChI']
             package_dict['inchi_key'] = content_hasBioPart['inChIKey']
             package_dict['smiles'] = content_hasBioPart['smiles']
             package_dict['exactmass'] = content_hasBioPart['monoisotopicMolecularWeight']
             package_dict['mol_formula'] = content_hasBioPart['molecularFormula']
 
+
+            ## measurement Technical Information
+            technique_measure = [content['measurementTechnique']]
+            technique_null = technique_measure[0][0]
+            technique = technique_null['name']
+            package_dict['measurement_technique'] = technique
+
             #package_dict['doi'] = content_hasBioPart['doi']
             #package_dict['measurement_technique'] = content['']
 
             #package_dict['metadata_created']    = content['']
 
-            #package_dict['metadata_modified'] = content['']
+            package_dict['metadata_published'] = content['datePublished']
 
 
 
@@ -263,7 +270,7 @@ class BioSchemaMUHarvester(HarvesterBase):
                                                 'lxml-xml',
                                                 from_encoding=response.info().get_param('charset'))
                     datasetURL = EachSitexml.find_all("url")
-                    datasetURL10 = datasetURL[4:14]
+                    datasetURL10 = datasetURL[54:61]
 
                     for durl in datasetURL10:
                         ndrul = durl.findNext("loc").text
@@ -343,13 +350,12 @@ class BioSchemaMUHarvester(HarvesterBase):
         return resources
 
     def _extract_tags(self,content):
-        tags = []
 
         technique_measure = [content['measurementTechnique']]
         technique0 = technique_measure[0][0]
         technique = technique0['name']
 
-        log.debug(f'this is technia {technique}')
+        #log.debug(f'this is technia {technique}')
         
         #if technique:
         #    tags.extend(technique)

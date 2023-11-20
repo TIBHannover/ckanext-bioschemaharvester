@@ -173,8 +173,8 @@ class BioSchemaMUHarvester(HarvesterBase):
             package_dict["owner_org"] = owner_org
 
             # add resources
-
             package_dict["resources"] = self._extract_resources(content)
+            package_dict["language"] = 'english'
 
             # add notes, license_id
             package_dict['notes'] = content['description']
@@ -183,7 +183,7 @@ class BioSchemaMUHarvester(HarvesterBase):
 
             self._extract_extras_image(package= package_dict,content_hasBioPart= content)
 
-            package_dict['author'] = content['citation']
+            #package_dict['author'] = content['citation']
 
             #package_dict['extras'] = extras
 
@@ -201,6 +201,8 @@ class BioSchemaMUHarvester(HarvesterBase):
             technique_null = technique_measure[0][0]
             technique = technique_null['name']
             package_dict['measurement_technique'] = technique
+
+            package_dict['measurement_technique_iri'] = technique_null['url']
 
             #package_dict['doi'] = content_hasBioPart['doi']
             #package_dict['measurement_technique'] = content['']

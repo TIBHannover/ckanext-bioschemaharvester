@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="insert data into new tables.">
+    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="Testing new harvesting with other set of datasets">
       <change beforePath="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester/bioschemascrap.py" beforeDir="false" afterPath="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester/bioschemascrap.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -258,7 +258,42 @@
       <option name="project" value="LOCAL" />
       <updated>1700417912381</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="insert data into new tables.">
+      <created>1700419017961</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1700419017962</updated>
+    </task>
+    <task id="LOCAL-00026" summary="insert data into new tables.">
+      <created>1700421814997</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1700421814997</updated>
+    </task>
+    <task id="LOCAL-00027" summary="insert data into new tables.">
+      <created>1700421916408</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1700421916409</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Massbank Harvesting after Schema changes">
+      <created>1700422870207</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1700422870207</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Testing new harvesting with other set of datasets">
+      <created>1700423131939</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1700423131939</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -291,6 +326,8 @@
     <MESSAGE value="append to packagedict not extras" />
     <MESSAGE value="removed validated dict" />
     <MESSAGE value="insert data into new tables." />
-    <option name="LAST_COMMIT_MESSAGE" value="insert data into new tables." />
+    <MESSAGE value="Massbank Harvesting after Schema changes" />
+    <MESSAGE value="Testing new harvesting with other set of datasets" />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing new harvesting with other set of datasets" />
   </component>
 </project>

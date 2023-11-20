@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="Testing new harvesting with other set of datasets">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="UNDO:The package_build indexing should be with &quot;name&quot;" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -293,7 +291,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700423131939</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="UNDO:The package_build indexing should be with &quot;name&quot;">
+      <created>1700521192661</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1700521192661</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -328,6 +333,7 @@
     <MESSAGE value="insert data into new tables." />
     <MESSAGE value="Massbank Harvesting after Schema changes" />
     <MESSAGE value="Testing new harvesting with other set of datasets" />
-    <option name="LAST_COMMIT_MESSAGE" value="Testing new harvesting with other set of datasets" />
+    <MESSAGE value="UNDO:The package_build indexing should be with &quot;name&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="UNDO:The package_build indexing should be with &quot;name&quot;" />
   </component>
 </project>

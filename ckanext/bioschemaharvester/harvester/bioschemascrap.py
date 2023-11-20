@@ -221,7 +221,7 @@ class BioSchemaMUHarvester(HarvesterBase):
                 package_dict, harvest_object, "package_show"
             )
 
-            rebuild(package_dict["id"])
+            rebuild(package_dict["name"])
             Session.commit()
 
             self._send_to_db(package=package_dict,content=content)

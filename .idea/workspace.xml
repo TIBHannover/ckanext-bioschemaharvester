@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="UNDO:The package_build indexing should be with &quot;name&quot;" />
+    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="Tend to harvest first 60" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -298,7 +298,21 @@
       <option name="project" value="LOCAL" />
       <updated>1700521192661</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="UNDO:The package_build indexing should be with &quot;name&quot;">
+      <created>1700521489950</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1700521489950</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Tend to harvest first 60">
+      <created>1700521540638</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1700521540638</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -334,6 +348,7 @@
     <MESSAGE value="Massbank Harvesting after Schema changes" />
     <MESSAGE value="Testing new harvesting with other set of datasets" />
     <MESSAGE value="UNDO:The package_build indexing should be with &quot;name&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="UNDO:The package_build indexing should be with &quot;name&quot;" />
+    <MESSAGE value="Tend to harvest first 60" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tend to harvest first 60" />
   </component>
 </project>

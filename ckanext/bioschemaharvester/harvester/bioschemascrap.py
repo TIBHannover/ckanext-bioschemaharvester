@@ -279,7 +279,7 @@ class BioSchemaMUHarvester(HarvesterBase):
 
             elif xml.find_all("url"):
                 sitemaps = xml.find_all("url")
-                datasetURL10 = sitemaps[54:61]
+                datasetURL10 = sitemaps[:61]
                 log.debug("This source contains sitemap as root")
                 for durl in datasetURL10:
                     ndrul = durl.findNext("loc").text

@@ -269,9 +269,9 @@ class BioSchemaMUHarvester(HarvesterBase):
                                                 'lxml-xml',
                                                 from_encoding=response.info().get_param('charset'))
                     datasetURL = EachSitexml.find_all("url")
-                    #datasetURL10 = datasetURL[54:61]
+                    datasetURL10 = datasetURL[:61]
 
-                    for durl in datasetURL:
+                    for durl in datasetURL10:
                         ndrul = durl.findNext("loc").text
                         # log.debug("doing stuff")
                         done.append(self.scrape_new(ndrul))

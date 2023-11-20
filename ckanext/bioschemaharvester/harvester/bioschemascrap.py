@@ -159,6 +159,7 @@ class BioSchemaMUHarvester(HarvesterBase):
 
             # get id
             package_dict["id"] = munge_title_to_name(harvest_object.guid)
+            log.debug(f"Here isthe package id saved {package_dict['id']}")
 
             package_dict['name'] = content['name']
 
@@ -211,12 +212,8 @@ class BioSchemaMUHarvester(HarvesterBase):
 
             package_dict['metadata_published'] = content['datePublished']
 
-
-
             tags = self._extract_tags(content)
             package_dict['tags'] = tags
-
-            log.debug(f'Key for package_dict: {package_dict.keys()}')
 
             # creating package
             log.debug("Create/update package using dict: %s" % package_dict)

@@ -14,6 +14,9 @@ from ckan.model import Session
 from ckan.logic import get_action
 from ckan import model
 
+from ckanext.related_resources.models.related_resources import RelatedResources as related_resources
+from ckanext.rdkit_visuals.models.molecule_rel import MolecularRelationData as molecule_rel
+
 from ckanext.harvest.harvesters.base import HarvesterBase
 from ckan.lib.munge import munge_tag
 from ckan.lib.munge import munge_title_to_name

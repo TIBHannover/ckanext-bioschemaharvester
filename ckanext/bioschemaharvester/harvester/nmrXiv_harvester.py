@@ -66,9 +66,10 @@ class NMRxIVBioSchema(HarvesterBase):
             harvest_obj = HarvestObject(guid=identi, job=harvest_job)
             harvest_obj.save()
             harvest_obj_ids.append(harvest_obj.id)
-            log.debug("Harvest obj %s created" % harvest_obj.id)
 
-         log.debug("Gather stage successfully finished with %s harvest objects" % len(harvest_obj_ids))
+            log.debug("Harvest obj %s created" %harvest_obj.id)
+
+        log.debug("Gather stage successfully finished with %s harvest objects" % len(harvest_obj_ids))
 
         return harvest_obj_ids
 

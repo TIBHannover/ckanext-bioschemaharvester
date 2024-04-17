@@ -1,5 +1,3 @@
-import ast
-import datetime
 import json
 from dateutil.parser import parse
 
@@ -29,10 +27,7 @@ from rdkit.Chem import rdmolfiles
 from rdkit.Chem import Draw
 from rdkit.Chem import Descriptors
 
-import urllib.request
-from bs4 import BeautifulSoup
 import requests
-import re
 
 log = logging.getLogger(__name__)
 
@@ -66,14 +61,23 @@ class NMRxIVBioSchema(HarvesterBase):
 
         base_swagger_api = harvest_job.source.url
         log.debug("%s" % base_swagger_api)
+
         for identi in self._get_dataseturl(base_url=base_swagger_api):
             harvest_obj = HarvestObject(guid=identi, job=harvest_job)
             harvest_obj.save()
             harvest_obj_ids.append(harvest_obj.id)
             log.debug("Harvest obj %s created" % harvest_obj.id)
 
-        log.debug("Gather stage successfully finished with %s harvest objects" % len(harvest_obj_ids))
+         log.debug("Gather stage successfully finished with %s harvest objects" % len(harvest_obj_ids))
+
         return harvest_obj_ids
+
+        # TODO: remove this after test
+        #log.debug("Testing with 20 object ids only")
+
+        #only_20_objects = harvest_obj_ids[:22]
+
+        #return only_20_objects
 
     def fetch_stage(self, harvest_object):
         """
@@ -116,7 +120,7 @@ class NMRxIVBioSchema(HarvesterBase):
         :return: True if everything went well, False if errors were found
         """
 
-        global created, modified
+        global created, modified, technique_measure
         if not harvest_object:
             log.error("No harvest object received")
             self._save_object_error("No harvest object received")
@@ -195,6 +199,10 @@ class NMRxIVBioSchema(HarvesterBase):
 
             except KeyError as e:
                 log.exception(f'Measurement Technique Error {e}')
+                try:
+                    package_dict['measurement_technique'] = technique_measure
+                except KeyError as e2:
+                    log.exception(f'Measurement Technique not Available {e2}')
                 pass
 
             try:
@@ -330,28 +338,37 @@ class NMRxIVBioSchema(HarvesterBase):
 
     def _extract_variable_measured(self, content):
 
-        vairable_measured_dict = {
-            'variableMeasured_name': '',
-            'variableMeasured_propertyID': '',
-            'variableMeasured_value': '',
-            'variableMeasured_tsurl': '',
-        }
+        variable_measured_package_list = []
 
-        variable_measured_package_dict = []
+        from curies import Converter as Converter
 
-        arrayof_variable_measured = content['variableMeasured']
-        log.debug(f"Arry of values {arrayof_variable_measured}")
+        converter_instance = Converter.from_prefix_map(
+            {
+                "CHEBI": "http://purl.obolibrary.org/obo/CHEBI_",
+                "MONDO": "http://purl.obolibrary.org/obo/MONDO_",
+                "GO": "http://purl.obolibrary.org/obo/GO_",
+                "FIX": "http://purl.obolibrary.org/obo/FIX_",
+                "OBI": "http://purl.obolibrary.org/obo/OBI_",
+                "NCIT": "http://purl.obolibrary.org/obo/NCIT_",
+                "CHMO": "http://purl.obolibrary.org/obo/CHMO_",
+            }
+        )
 
-        for values in arrayof_variable_measured:
-            vairable_measured_dict['variableMeasured_name'] = values['name']
-            vairable_measured_dict['variableMeasured_propertyID'] = values['propertyID']
-            vairable_measured_dict['variableMeasured_value'] = values['value']
+        for values in content.get('variableMeasured', []):  # Safe access to 'variableMeasured'
+            variable_measured_dict = {
+                'variableMeasured_name': values.get('name', ''),
+                'variableMeasured_propertyID': values.get('propertyID', ''),
+                'variableMeasured_value': values.get('value', ''),
+                'variableMeasured_tsurl': converter_instance.expand(values.get('propertyID','')),
+            }
 
-            variable_measured_package_dict.append(vairable_measured_dict)
+            log.debug(f'Variable Measured: {variable_measured_dict}')
 
-        log.debug(f"{variable_measured_package_dict}")
+            variable_measured_package_list.append(variable_measured_dict)
 
-        return variable_measured_package_dict
+        log.debug(f"All Variable Measured: {variable_measured_package_list}")
+
+        return variable_measured_package_list
 
     def _extract_extras_image(self, package, content_hasBioPart):
         extras = []
@@ -425,7 +442,6 @@ class NMRxIVBioSchema(HarvesterBase):
         """
 
         package_id = package['id']
-        log.debug(package)
 
         try:
             standard_inchi = content['inChI']
@@ -441,8 +457,6 @@ class NMRxIVBioSchema(HarvesterBase):
             log.debug(f"Current molecule_d  {molecule_id}")
             relation_value = mol_rel_data.get_mol_formula_by_package_id(package_id)
             log.debug(f"Here is the relation {relation_value}")
-
-            # TODO: Check if relationship exists or not.
 
             if not molecule_id:  # if there is no molecule at all, it inserts rows into molecules and molecule_rel_data dt
                 molecules.create(standard_inchi, smiles, inchi_key, exact_mass, mol_formula)

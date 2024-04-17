@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="Tend to harvest first 60">
-      <change afterPath="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester/nmrXiv_harvester.py" afterDir="false" />
+    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="new harvester for nmrXiv">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester/bioschemascrap.py" beforeDir="false" afterPath="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester/bioschemascrap.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ckanext/bioschemaharvester/plugin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ckanext/bioschemaharvester/plugin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester/nmrXiv_harvester.py" beforeDir="false" afterPath="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester/nmrXiv_harvester.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -318,7 +315,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700521540638</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="new harvester for nmrXiv">
+      <created>1713164777182</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1713164777182</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -355,6 +359,7 @@
     <MESSAGE value="Testing new harvesting with other set of datasets" />
     <MESSAGE value="UNDO:The package_build indexing should be with &quot;name&quot;" />
     <MESSAGE value="Tend to harvest first 60" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tend to harvest first 60" />
+    <MESSAGE value="new harvester for nmrXiv" />
+    <option name="LAST_COMMIT_MESSAGE" value="new harvester for nmrXiv" />
   </component>
 </project>

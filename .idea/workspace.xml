@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="harvesting variable_measured and values with iri" />
+    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="missing technique &amp; description" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -333,7 +333,14 @@
       <option name="project" value="LOCAL" />
       <updated>1713363875688</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="missing technique &amp; description">
+      <created>1713524966845</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1713524966846</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -372,6 +379,7 @@
     <MESSAGE value="Tend to harvest first 60" />
     <MESSAGE value="new harvester for nmrXiv" />
     <MESSAGE value="harvesting variable_measured and values with iri" />
-    <option name="LAST_COMMIT_MESSAGE" value="harvesting variable_measured and values with iri" />
+    <MESSAGE value="missing technique &amp; description" />
+    <option name="LAST_COMMIT_MESSAGE" value="missing technique &amp; description" />
   </component>
 </project>

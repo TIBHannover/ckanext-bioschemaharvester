@@ -163,7 +163,12 @@ class NMRxIVBioSchema(HarvesterBase):
             package_dict["language"] = 'english'
 
             # add notes, license_id
-            package_dict['notes'] = content['isPartOf']['description']
+            try:
+                package_dict['notes'] = content['isPartOf']['description']
+            except KeyError as e:
+                log.exception(f'description not available {e}')
+                package_dict['notes'] = ''
+                pass
             try:
                 package_dict["license_id"] = self._extract_license_id(context=context, content=content)
                 log.debug(f'This is the license {package_dict["license_id"]}')
@@ -192,19 +197,32 @@ class NMRxIVBioSchema(HarvesterBase):
             try:
                 # measurement Technical Information
                 technique_measure = content['measurementTechnique']
+
+                if not isinstance(technique_measure, dict):
+                    raise TypeError("Expected 'technique_measure' to be a dictionary.")
+
                 technique = technique_measure['name']
 
                 package_dict['measurement_technique'] = technique
-
                 package_dict['measurement_technique_iri'] = technique_measure['url']
 
-            except KeyError as e:
-                log.exception(f'Measurement Technique Error {e}')
-                try:
+            except KeyError:
+                log.exception('KeyError: Measurement Technique field is missing')
+                package_dict['measurement_technique'] = technique_measure  # Use entire technique_measure as a fallback
+
+            except TypeError as e:
+                log.exception(f'TypeError: {str(e)}')
+                if isinstance(technique_measure, str):
+                    # If technique_measure is a string, handle appropriately here
                     package_dict['measurement_technique'] = technique_measure
-                except KeyError as e2:
-                    log.exception(f'Measurement Technique not Available {e2}')
-                pass
+                else:
+                    # Attempt to retrieve 'name' if technique_measure is still usable as a dict
+                    try:
+                        package_dict['measurement_technique'] = technique_measure['name']
+                    except (KeyError, TypeError) as e2:
+                        log.exception(f'Further issue accessing measurement technique name: {e2}')
+
+            # This structure ensures that each type of error is handled according to your specification.
 
             try:
                 # Obtaining DOI from @id of Content

@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="new harvester for nmrXiv">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester/nmrXiv_harvester.py" beforeDir="false" afterPath="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester/nmrXiv_harvester.py" afterDir="false" />
-    </list>
+    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="harvesting variable_measured and values with iri" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -322,7 +319,21 @@
       <option name="project" value="LOCAL" />
       <updated>1713164777182</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="harvesting variable_measured and values with iri">
+      <created>1713363644361</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1713363644361</updated>
+    </task>
+    <task id="LOCAL-00035" summary="harvesting variable_measured and values with iri">
+      <created>1713363875688</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1713363875688</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -360,6 +371,7 @@
     <MESSAGE value="UNDO:The package_build indexing should be with &quot;name&quot;" />
     <MESSAGE value="Tend to harvest first 60" />
     <MESSAGE value="new harvester for nmrXiv" />
-    <option name="LAST_COMMIT_MESSAGE" value="new harvester for nmrXiv" />
+    <MESSAGE value="harvesting variable_measured and values with iri" />
+    <option name="LAST_COMMIT_MESSAGE" value="harvesting variable_measured and values with iri" />
   </component>
 </project>

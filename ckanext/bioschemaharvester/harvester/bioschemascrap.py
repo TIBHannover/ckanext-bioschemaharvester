@@ -58,7 +58,8 @@ class BioSchemaMUHarvester(HarvesterBase):
         return {
             "name": "Bioschema Sitemap ",
             "title": "Bioschema Scraper/Harvester",
-            "description": "Harvester for scrapping and harvesting metadata from BioSchema.org ",
+            "description": "Harvester for scrapping and harvesting metadata from BioSchema.org. "
+                           "(This harvester will be deprecated)",
         }
 
     def gather_stage(self, harvest_job):

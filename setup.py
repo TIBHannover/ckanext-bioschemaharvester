@@ -85,8 +85,8 @@ setup(
 
     entry_points='''
         [ckan.plugins]
-        
-        bioschemaharvester=ckanext.bioschemaharvester.harvester.nmrXiv_harvester:NMRxIVBioSchema
+        bioschemaharvester = ckanext.bioschemaharvester.harvester.bioschemascrap.BioSchemaMUHarvester
+        nmrxivharvester=ckanext.bioschemaharvester.harvester.nmrXiv_harvester:NMRxIVBioSchema
 
         [babel.extractors]
         ckan = ckan.lib.extract:extract_ckan

@@ -82,10 +82,11 @@ setup(
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow
     # pip to create the appropriate form of executable for the target platform.
+# bioschemaharvester=ckanext.bioschemaharvester.harvester.bioschemascrap:BioSchemaMUHarvester
     entry_points='''
         [ckan.plugins]
-        bioschemaharvester=ckanext.bioschemaharvester.harvester.bioschemascrap:BioSchemaMUHarvester
-        nmrxivharvester=ckanext.bioschemaharvester.harvester.nmrXiv_harvester:NMRxIVBioSchema
+        
+        bioschemaharvester=ckanext.bioschemaharvester.harvester.nmrXiv_harvester:NMRxIVBioSchema
 
         [babel.extractors]
         ckan = ckan.lib.extract:extract_ckan

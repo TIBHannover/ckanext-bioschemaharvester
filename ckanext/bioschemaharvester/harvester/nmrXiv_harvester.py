@@ -214,15 +214,16 @@ class NMRxIVBioSchema(HarvesterBase):
                 log.exception(f'TypeError: {str(e)}')
                 if isinstance(technique_measure, str):
                     # If technique_measure is a string, handle appropriately here
-                    package_dict['measurement_technique'] = technique_measure
+                    package_dict['measurement_technique'] = technique_measure[0]
                 else:
                     # Attempt to retrieve 'name' if technique_measure is still usable as a dict
                     try:
-                        package_dict['measurement_technique'] = technique_measure['name']
+                        package_dict['measurement_technique'] = technique_measure['name'][0]
                     except (KeyError, TypeError) as e2:
                         log.exception(f'Further issue accessing measurement technique name: {e2}')
+                        pass
 
-            # This structure ensures that each type of error is handled according to your specification.
+            pass
 
             try:
                 # Obtaining DOI from @id of Content
@@ -342,17 +343,27 @@ class NMRxIVBioSchema(HarvesterBase):
         return resources
 
     def _extract_tags(self, content):
-
         try:
-            technique_measure = content['measurementTechnique']
-            technique = technique_measure['name']
+            # Safely retrieve 'measurementTechnique' and ensure it's a dictionary
+            technique_measure_tag = content.get('measurementTechnique', {})
+            if not isinstance(technique_measure_tag, dict):
+                raise TypeError("Expected 'measurementTechnique' to be a dictionary.")
 
-            tags = [{"name": munge_tag(technique[:100])}]  # for tag in tags]
+            # Extract 'name' from 'technique_measure_tag', ensuring it exists and is a string
+            technique = technique_measure_tag.get('name', '')
+            if not isinstance(technique, str):
+                raise TypeError("Expected 'name' to be a string.")
+
+            # Prepare and return tags
+            tags = [{"name": munge_tag(technique[:100])}]
             return tags
 
-        except KeyError as e:
-            log.debug(f"Tags not generated Error: {e}")
+        except KeyError:
+            log.exception('KeyError: Measurement Technique field is missing')
+            return []
 
+        except TypeError as e:
+            log.exception(f'TypeError: {str(e)}')
             return []
 
     def _extract_variable_measured(self, content):

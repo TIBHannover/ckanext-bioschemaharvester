@@ -73,13 +73,6 @@ class NMRxIVBioSchema(HarvesterBase):
 
         return harvest_obj_ids
 
-        # TODO: remove this after test
-        #log.debug("Testing with 20 object ids only")
-
-        #only_20_objects = harvest_obj_ids[:22]
-
-        #return only_20_objects
-
     def fetch_stage(self, harvest_object):
         """
         TODO: Extend this information

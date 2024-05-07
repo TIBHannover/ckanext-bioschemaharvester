@@ -191,31 +191,16 @@ class NMRxIVBioSchema(HarvesterBase):
                 # measurement Technical Information
                 technique_measure = content['measurementTechnique']
 
-                if not isinstance(technique_measure, dict):
-                    raise TypeError("Expected 'technique_measure' to be a dictionary.")
+                if isinstance(technique_measure, dict):
+                    technique = technique_measure['name']
+                    package_dict['measurement_technique'] = technique
+                    package_dict['measurement_technique_iri'] = technique_measure['url']
 
-                technique = technique_measure['name']
+                elif isinstance(technique_measure, str):
+                    package_dict['measurement_technique'] = technique_measure
 
-                package_dict['measurement_technique'] = technique
-                package_dict['measurement_technique_iri'] = technique_measure['url']
-
-            except KeyError:
-                log.exception('KeyError: Measurement Technique field is missing')
-                package_dict['measurement_technique'] = technique_measure  # Use entire technique_measure as a fallback
-
-            except TypeError as e:
-                log.exception(f'TypeError: {str(e)}')
-                if isinstance(technique_measure, str):
-                    # If technique_measure is a string, handle appropriately here
-                    package_dict['measurement_technique'] = technique_measure[0]
-                else:
-                    # Attempt to retrieve 'name' if technique_measure is still usable as a dict
-                    try:
-                        package_dict['measurement_technique'] = technique_measure['name'][0]
-                    except (KeyError, TypeError) as e2:
-                        log.exception(f'Further issue accessing measurement technique name: {e2}')
-                        pass
-
+            except (KeyError, TypeError) as e:
+                log.exception(f'TypeError or KeyError for MeasurementTechnique for ID{package_dict["id"]}: {str(e)}')
             pass
 
             try:

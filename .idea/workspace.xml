@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="remove todo">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-    </list>
+    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="refactoring to basic code" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,6 +47,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester" />
       <recent name="$PROJECT_DIR$/ckanext/bioschemaharvester/templates/snippets" />
       <recent name="$PROJECT_DIR$/ckanext/bioschemaharvester/templates/bioschema" />
     </key>
@@ -364,7 +362,56 @@
       <option name="project" value="LOCAL" />
       <updated>1713795608182</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="test nmrxiv plugin with bioschema">
+      <created>1713796179014</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1713796179014</updated>
+    </task>
+    <task id="LOCAL-00041" summary="test nmrxiv plugin with bioschema">
+      <created>1713796947256</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1713796947257</updated>
+    </task>
+    <task id="LOCAL-00042" summary="test nmrxiv plugin with bioschema">
+      <created>1713797075589</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1713797075589</updated>
+    </task>
+    <task id="LOCAL-00043" summary="test nmrxiv plugin with bioschema">
+      <created>1713798304021</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1713798304021</updated>
+    </task>
+    <task id="LOCAL-00044" summary="test nmrxiv plugin with bioschema">
+      <created>1713798431098</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1713798431098</updated>
+    </task>
+    <task id="LOCAL-00045" summary="refactoring to basic code">
+      <created>1713799006424</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1713799006424</updated>
+    </task>
+    <task id="LOCAL-00046" summary="refactoring to basic code">
+      <created>1713799110456</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1713799110456</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -380,8 +427,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changes in import stage" />
-    <MESSAGE value="datetime metadata stored as extras" />
     <MESSAGE value="changes in workspace" />
     <MESSAGE value="change in image generation" />
     <MESSAGE value="extracting &amp; mapping licenses" />
@@ -405,6 +450,8 @@
     <MESSAGE value="missing technique &amp; description" />
     <MESSAGE value="tags measurement technique" />
     <MESSAGE value="remove todo" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove todo" />
+    <MESSAGE value="test nmrxiv plugin with bioschema" />
+    <MESSAGE value="refactoring to basic code" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactoring to basic code" />
   </component>
 </project>

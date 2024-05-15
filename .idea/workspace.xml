@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="refactoring to basic code" />
+    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="measurementTechnique solved with string">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -411,7 +413,14 @@
       <option name="project" value="LOCAL" />
       <updated>1713799110456</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="measurementTechnique solved with string">
+      <created>1715093613078</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1715093613078</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -427,7 +436,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changes in workspace" />
     <MESSAGE value="change in image generation" />
     <MESSAGE value="extracting &amp; mapping licenses" />
     <MESSAGE value="New additions" />
@@ -452,6 +460,7 @@
     <MESSAGE value="remove todo" />
     <MESSAGE value="test nmrxiv plugin with bioschema" />
     <MESSAGE value="refactoring to basic code" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring to basic code" />
+    <MESSAGE value="measurementTechnique solved with string" />
+    <option name="LAST_COMMIT_MESSAGE" value="measurementTechnique solved with string" />
   </component>
 </project>

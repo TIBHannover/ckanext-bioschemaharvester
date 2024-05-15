@@ -192,12 +192,16 @@ class NMRxIVBioSchema(HarvesterBase):
                 technique_measure = content['measurementTechnique']
 
                 if isinstance(technique_measure, dict):
+
                     technique = technique_measure['name']
                     package_dict['measurement_technique'] = technique
-                    package_dict['measurement_technique_iri'] = technique_measure['url']
+                    package_dict['measurement_technique_iri'] = technique_measure['@id']
 
                 elif isinstance(technique_measure, str):
                     package_dict['measurement_technique'] = technique_measure
+
+                else:
+                    log.error("Measurement not available for package %s", package_dict['id'])
 
             except (KeyError, TypeError) as e:
                 log.exception(f'TypeError or KeyError for MeasurementTechnique for ID{package_dict["id"]}: {str(e)}')

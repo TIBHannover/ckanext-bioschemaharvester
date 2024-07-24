@@ -6,8 +6,10 @@ import os.path
 import random
 from urllib.error import HTTPError
 import traceback
-from datetime import date
+import datetime
 import requests
+
+from urllib.parse import urlparse, parse_qs
 
 from ckan.model import Session
 from ckan.logic import get_action
@@ -32,9 +34,9 @@ import requests
 log = logging.getLogger(__name__)
 
 
-class NMRxIVBioSchema(HarvesterBase):
+class ChemotionRepoHarvester(HarvesterBase):
     """
-        To get the datasets from NMRXiv in the BioSchemas via Swagger API, we use this Harvester class.
+        To get the datasets from Chemotion Repository using BioSchemas via Swagger API, we use this Harvester class.
         This Harvester provides IDs and dataset's metadata are attained by two different APIs.
      """
 
@@ -43,18 +45,15 @@ class NMRxIVBioSchema(HarvesterBase):
         Return information about this harvester.
         """
         return {
-            "name": "nmrXiv Swagger Harvester",
-            "title": "nmrXiv Swagger Harvester",
-            "description": "Harvester for scrapping and harvesting metadata from nmrXiv Swagger API",
+            "name": "Chemotion repo Harvester",
+            "title": "Chemotion Swagger Harvester",
+            "description": "Harvester for scrapping and harvesting metadata from Chemotion-Repo via  Swagger API",
         }
 
     def gather_stage(self, harvest_job):
         """
-        Gathers identifiers of each source, gathering them to the next stage for fetching metadata.
-        This stage uses Swagger API provided by nmrXiv, to extract all the identifiers available in the nmrXiv datbase.
-
-        ckan-ily they are converted harvest_object_ids, within the database of the CKAN.
-
+        Gathering inchiKeys from each dataset at the given time and from & to.
+        Gather is to gather,
         :param harvest_job: HarvestJob object
         :return: A list of HarvestObject ids for Fetch stage
         """
@@ -62,17 +61,22 @@ class NMRxIVBioSchema(HarvesterBase):
         log.debug("in gather stage: %s" % harvest_job.source.url)
         harvest_obj_ids = []
 
-        base_swagger_api = harvest_job.source.url
+        type_chem = 'Container'
+        offset = 0
+        limit = 1000
+        date_from = '2024-07-01'
+        date_to = datetime.date.today()
+
+        base_swagger_api = harvest_job.source.url + '/publications'
         log.debug("%s" % base_swagger_api)
 
-        for identi in self._get_dataseturl(base_url=base_swagger_api):
+        for identi in self._get_dataseturl(base_url=base_swagger_api, type_chem=type_chem, offset=offset,
+                                           limit=limit, date_from=date_from, date_to=date_to):
             harvest_obj = HarvestObject(guid=identi, job=harvest_job)
             harvest_obj.save()
             harvest_obj_ids.append(harvest_obj.id)
 
-            log.debug("Harvest obj %s created" %harvest_obj.id)
-
-        log.debug("Gather stage successfully finished with %s harvest objects" % len(harvest_obj_ids))
+            log.debug("Harvest obj %s created" % harvest_obj.id)
 
         return harvest_obj_ids
 
@@ -86,16 +90,18 @@ class NMRxIVBioSchema(HarvesterBase):
 
         base_swagger_api = harvest_object.source.url
 
+        type_chem = "Container"
+
         try:
 
             log.debug("in fetch stage: %s" % harvest_object.guid)
 
-            base_url = base_swagger_api + 'schemas/bioschemas'
+            base_url = base_swagger_api + f'/download_json?{type_chem}&id=0&inchikey={harvest_object.guid}'
 
             response = requests.get(base_url)
             response.raise_for_status()  # Raises an error for 4XX/5XX responses
 
-            metadata_response = requests.get(f'{base_url}/{harvest_object.guid}')
+            metadata_response = requests.get(base_url)
             metadata_response.raise_for_status()
             metadata_data = metadata_response.json()
 
@@ -136,13 +142,15 @@ class NMRxIVBioSchema(HarvesterBase):
 
             content = json.loads(harvest_object.content)
             log.debug("in import stage %s" % harvest_object.guid)
-            # log.debug(content) Occupying to much, space and time
+            log.debug(content) # Occupying to much, space and time
 
             # get id
-            package_dict["id"] = munge_title_to_name(harvest_object.guid)
+            package_dict["inchi_key"] = munge_title_to_name(harvest_object.guid)
+            package_dict["id"] = munge_title_to_name(content["@id"])
+
             log.debug(f"Here is the package id saved {package_dict['id']}")
 
-            package_dict['name'] = content['name']
+            package_dict['name'] = content['@id']
 
             package_dict["title"] = content['name']
             package_dict['url'] = content['url']
@@ -157,10 +165,11 @@ class NMRxIVBioSchema(HarvesterBase):
             # add resources
             package_dict["resources"] = self._extract_resources(content)
             package_dict["language"] = 'english'
+            package_dict["maintainer"] = content['includedInDataCatalog']['name']
 
             # add notes, license_id
             try:
-                package_dict['notes'] = content['isPartOf']['description']
+                package_dict['notes'] = content['description']
             except KeyError as e:
                 log.exception(f'description not available {e}')
                 package_dict['notes'] = ''
@@ -176,15 +185,18 @@ class NMRxIVBioSchema(HarvesterBase):
 
             # Chemical information by extracting BioChemEntity
             content_about = content['isPartOf']['about']
-            content_hasBioPart = content_about['hasBioChemEntityPart'][0]
+            content_hasBioPart = content_about[0]['hasBioChemEntityPart']
+
+            log.debug(content_about)
             try:
                 package_dict['inchi'] = content_hasBioPart['inChI']
                 package_dict['inchi_key'] = content_hasBioPart['inChIKey']
-                smiles_a = content_hasBioPart['smiles']
-                package_dict['smiles'] = next((item for item in smiles_a if item is not None), 'n/a')
-                # package_dict['smiles'] = content_hasBioPart['smiles']
-                package_dict['exactmass'] = content_hasBioPart['molecularWeight']
+                # smiles = content_hasBioPart['smiles']
+                # package_dict['smiles'] = next((item for item in smiles_a if item is not None), 'n/a')
+                package_dict['smiles'] = content_hasBioPart['smiles']
+                package_dict['exactmass'] = content_hasBioPart['molecularWeight']['value']
                 package_dict['mol_formula'] = content_hasBioPart['molecularFormula']
+                package_dict['iupacName'] = content_hasBioPart['iupacName']
 
             except KeyError as e:
                 log.exception(f"Chemical Information Error: {e}")
@@ -219,17 +231,28 @@ class NMRxIVBioSchema(HarvesterBase):
 
             try:
                 # Date of metadata publication
-                package_dict['metadata_published'] = content['datePublished']
+                package_dict['metadata_published'] = content['isPartOf']['datePublished']
             except KeyError as e:
                 log.exception(f'Metadata date Published Error: {e}')
 
             # Author information
             try:
-                double_dict_ispartof = content['isPartOf']['isPartOf']
-                package_dict['metadata_published'] = double_dict_ispartof['datePublished']
-                citation_author = double_dict_ispartof['citation']
+                # double_dict_ispartof = content['isPartOf']['isPartOf']
+                # package_dict['metadata_published'] = double_dict_ispartof['datePublished']
+                # citation_author = double_dict_ispartof['citation']
 
-                package_dict['author'] = citation_author[0]['author']
+                author_list = content['author']
+
+
+                for author in author_list:
+                    author_all = str()
+                    author_all += author['name']
+                    package_dict['author'] = author_all
+
+                # Remove the trailing semicolon and space
+                # package_dict['author'] = package_dict['author'].strip('; ')
+
+                log.debug(package_dict['author'])
 
             except Exception as e:
                 log.exception(f'Author/date_published Error {e}')
@@ -263,41 +286,49 @@ class NMRxIVBioSchema(HarvesterBase):
             return False
         return True
 
-    def _get_dataseturl(self, base_url):
+    def _get_dataseturl(self, base_url, type_chem, offset, limit, date_from, date_to):
         """
-        :param base_url: receives url, which is a Swagger-API url of nmrXiv ONLY
-        :return:
+        :param base_url: receives url, which is a Swagger-API url of chemotion - repo only
+        :param type_chem: Here we currently using Container only for retrieving Datasets!! We can also use it for Sample
+        :param offset: starting Offset
+        :param limit: max.1000 which will iterate
+        :param date_from: date from which retrieving
+        :param date_to: date to which retrieving
+        :return: List of InChIKeys present in Chemotion-Repo for the given Parameters
         """
+        all_data = []
+        inchikey_list = []
 
-        if base_url == 'https://nmrxiv.org/api/v1/':
-            try:
-                base_url_gather = base_url + 'list/datasets'
+        while True:
+            base_url = base_url + f'?type={type_chem}&offset={offset}&limit={limit}&date_from={date_from}&date_to={date_to}'
 
-                # Initial request to get pagination details
-                log.debug(f'Requesting for {base_url_gather}')
+            response = requests.get(base_url)
+            response.raise_for_status()
+            data = response.json()
+            publication_data = data['publications']
 
-                response = requests.get(base_url_gather)
-                response.raise_for_status()  # Raises an error for 4XX/5XX responses
-                data = response.json()
-                last_page = data['meta']['last_page']
+            all_data.extend(publication_data)
 
-                all_identifiers = []
-                for page_number in range(1, last_page + 1):
-                    page_response = requests.get(f'{base_url_gather}?page={page_number}')
-                    page_response.raise_for_status()  # Raises an error for bad responses
-                    page_data = page_response.json()['data']
+            if not publication_data:
+                break
 
-                    # Using list comprehension for cleaner code
-                    all_identifiers.extend([dataset['identifier'] for dataset in page_data])
+            # Increase the offset for the next batch
+            offset += limit
 
-                return all_identifiers
+        log.debug(f'Total InChIKey Gathered: {len(all_data)}')
 
-            except requests.RequestException as e:
-                print(f"Request failed: {e}")
-                return []
+        for url in all_data:
+            # Parse the URL
+            parsed_url = urlparse(url)
 
-        else:
-            return 'Error fetching API'
+            # Extract the query parameters
+            query_params = parse_qs(parsed_url.query)
+
+            # Get the inchikey value
+            inchikey = query_params.get('inchikey', [None])[0]
+            inchikey_list.append(inchikey)
+
+        return inchikey_list
 
     def _get_mapping(self):
         return {
@@ -374,7 +405,7 @@ class NMRxIVBioSchema(HarvesterBase):
                 'variableMeasured_name': values.get('name', ''),
                 'variableMeasured_propertyID': values.get('propertyID', ''),
                 'variableMeasured_value': values.get('value', ''),
-                'variableMeasured_tsurl': converter_instance.expand(values.get('propertyID','')),
+                #'variableMeasured_tsurl': converter_instance.expand(values.get('propertyID', '')),
             }
 
             log.debug(f'Variable Measured: {variable_measured_dict}')
@@ -390,7 +421,7 @@ class NMRxIVBioSchema(HarvesterBase):
         package_id = package['id']
         #
         content_about = content_hasBioPart['isPartOf']['about']
-        content = content_about['hasBioChemEntityPart'][0]
+        content = content_about[0]['hasBioChemEntityPart']
         #
         standard_inchi = content['inChI']
         #
@@ -461,10 +492,10 @@ class NMRxIVBioSchema(HarvesterBase):
         try:
             standard_inchi = content['inChI']
             inchi_key = content['inChIKey']
-            smiles_a = content['smiles']
-            log.debug(f'here smiles looks like when harvester SMILES: {smiles_a}')
-            smiles = next((item for item in smiles_a if item is not None), 'n/a')
-            exact_mass = content['molecularWeight']
+            smiles = content['smiles']
+            log.debug(f'here smiles looks like when harvester SMILES: {smiles}')
+            # smiles = next((item for item in smiles_a if item is not None), 'n/a')
+            exact_mass = content['molecularWeight']['value']
             mol_formula = content['molecularFormula']
 
             # Check if the row already exists, if not then INSERT

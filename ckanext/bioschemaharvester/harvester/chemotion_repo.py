@@ -7,6 +7,7 @@ import random
 from urllib.error import HTTPError
 import traceback
 import datetime
+from datetime import datetime
 import requests
 
 from urllib.parse import urlparse, parse_qs
@@ -38,6 +39,8 @@ class ChemotionRepoHarvester(HarvesterBase):
     """
         To get the datasets from Chemotion Repository using BioSchemas via Swagger API, we use this Harvester class.
         This Harvester provides IDs and dataset's metadata are attained by two different APIs.
+
+        The source configuration must contain the Parameters dictionary w.r.t Swagger API
      """
 
     def info(self):
@@ -58,14 +61,22 @@ class ChemotionRepoHarvester(HarvesterBase):
         :return: A list of HarvestObject ids for Fetch stage
         """
 
+        global type_chem, offset, limit, date_from, date_to
+
         log.debug("in gather stage: %s" % harvest_job.source.url)
         harvest_obj_ids = []
 
-        type_chem = 'Container'
-        offset = 0
-        limit = 1000
-        date_from = '2024-07-01'
-        date_to = datetime.date.today()
+        try:
+            type_chem, offset, limit, date_from, date_to = self._set_config(harvest_job.source.config)
+            log.debug(type_chem, offset, limit, date_from, date_to)
+        except Exception as e:
+            log.error(e)
+
+        # type_chem = 'Container'
+        # offset = 0
+        # limit = 1000
+        # date_from = '2024-07-01'
+        # date_to = datetime.date.today()
 
         base_swagger_api = harvest_job.source.url + '/publications'
         log.debug("%s" % base_swagger_api)
@@ -130,7 +141,7 @@ class ChemotionRepoHarvester(HarvesterBase):
             return False
 
         try:
-            # self._set_config(harvest_object.job.source.config)
+            # self._set_config(harvest_object.job.source.config,harvest_object.job.source.frequency)
             context = {
                 "model": model,
                 "session": Session,
@@ -285,6 +296,48 @@ class ChemotionRepoHarvester(HarvesterBase):
             )
             return False
         return True
+
+
+    def _set_config(self, source_config):
+
+        """
+        Configuration from GUI is being added here.
+        This function also checks which frequency with which harvest process would be proceeded.
+
+        It also checks weather the date and time mentioned and acts accordingly
+
+        :param source_config: Configuration from the GUI. It should only take type_chem, offset, limit, date_from, date_to
+        which are required for the Swagger API to run
+
+        :return all the required values for the Swagger API to run
+
+        """
+        now = datetime.now()
+
+        try:
+            config_json = json.loads(source_config)
+            log.debug("config_json: %s" % config_json)
+
+            type_chem = config_json.get("type_chem")
+            offset = config_json.get("offset")
+            limit = config_json.get("limit")
+            date_from = config_json.get("date_from")
+            date_to = config_json.get("date_to")
+
+            if limit is None:
+                limit = int(1000)
+
+            if date_from is None:
+                date_from = '1971-01-01'
+
+            if date_to is None:
+                date_to = now
+
+            return type_chem, offset, limit, date_from, date_to
+
+        except ValueError as e:
+            log.error(f"Configuration Error {e}")
+            pass
 
     def _get_dataseturl(self, base_url, type_chem, offset, limit, date_from, date_to):
         """

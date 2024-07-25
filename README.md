@@ -72,25 +72,27 @@ Restart Server if you are using Supervisor and Nginx
 	sudo service nginx reload
 
 
-## Harvesting 
-
+## Harvesting and Harvesters
+ 
 NOTE: Before installing and harvesting, it is assummed that you already have installed 
 - [CKAN Harvester](https://github.com/ckan/ckanext-harvest)   
 - [RDKit Visuals](https://github.com/bhavin2897/ckanext-rdkit-visuals)
 - [Related Resources](https://github.com/bhavin2897/ckanext-related_resources)
 
-The harvest Source CAN be a Sitemap, Sitemaps or single web page, containing bioschema in JSON-LD format and available to scrap.
-Source Example: https://massbank.eu/MassBank/sitemapindex.xml
 
-No need to add any information to the configuartion text.
+### 1. BioSchema Harvester
+The harvest Source CAN be a Sitemap, Sitemaps or single web page, containing BioSchema in JSON-LD format and available to scrap.
 
-Choose Bioschema Scrapper/Harvester 
+No need to add any information to the configuration text.
 
-Save  
 
-Run Harvester `ckan -c /etc/ckan/default/ckan.ini harvester run`, if you running on development/production server. 
+`Choose BioSchema Scrapper/Harvester`
 
-Else if you are running locally, follow regular hravetsing process. 
+`Save` and  `Reharvest`  
+
+Run Harvester `ckan -c /etc/ckan/default/ckan.ini harvester run`, if you are running on development/production server. 
+
+Else if you are running locally, follow regular harvesting process. 
 
 	ckan -c /etc/ckan/default/ckan.ini harvester gather-consumer
 	
@@ -98,11 +100,48 @@ Else if you are running locally, follow regular hravetsing process.
 	
 	ckan -c /etc/ckan/default/ckan.ini harvester run
 
-## Tests
+### 2. nmrXiv Harvester
 
-To run the tests, do:
+_NOTE: This harvester is still under development._ 
 
-    pytest --ckan-ini=test.ini
+This BioSchema Harvester can obtain only from Swagger API, of nmrXiv which is based on BioSchema JSON-LD.
+The harvester modifies to gather, fetch and harvest in regard to API. 
+
+[nmrXiv Swagger API Documentation](https://nmrxiv.org/api/documentation#/) 
+
+No Configuration required.  
+
+`Choose nmrXiv Swagger Harvester`
+
+`Save` and  `Reharvest`  
+
+Run Harvester `ckan -c /etc/ckan/default/ckan.ini harvester run`, if you are running on development/production server. 
+
+Else if you are running locally, follow regular harvesting process. 
+
+	ckan -c /etc/ckan/default/ckan.ini harvester gather-consumer
+	
+	ckan -c /etc/ckan/default/ckan.ini harvester fetch-consumer
+	
+	ckan -c /etc/ckan/default/ckan.ini harvester run
+
+### 3. Chemotion-Repository Harvester
+_NOTE: This harvester is still under development._ 
+
+[Chemotion Repository Swagger API Documentation](https://www.chemotion-repository.net/swagger_doc#/)
+
+Configuration Required:
+ 
+```
+{
+"type_chem": "Container",
+"offset" : 0,
+"limit" : 1000, 
+"date_from" : "2020-10-10", 
+"date_to": ""
+}
+```
+
 
 
 ## Releasing a new version of ckanext-bioschemaharvester

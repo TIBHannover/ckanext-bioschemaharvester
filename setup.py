@@ -16,7 +16,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version='0.1.0',
+    version='0.1.5',
 
     description='''This extension is to provide scrapper or harvesting metadata from home.org where Schema.org datasets use sitemaps to locate datasets. ''',
     long_description=long_description,
@@ -26,7 +26,7 @@ setup(
     url='https://github.com/TIB/ckanext-bioschemaharvester',
 
     # Author details
-    author='''Bhavin''',
+    author='''Bhavin Katabathuni''',
     author_email='''bhavin2897@gmail.com''',
 
     # Choose your license
@@ -50,7 +50,7 @@ setup(
 
 
     # What does your project relate to?
-    keywords='''CKAN home schema home scrapper''',
+    keywords='''CKAN BioSchema Harvester Sitemap scrapper''',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().

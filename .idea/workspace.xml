@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="Added Measurement CURIE for iri">
-      <change afterPath="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester/chemotion_repo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester/nmrXiv_harvester.py" beforeDir="false" afterPath="$PROJECT_DIR$/ckanext/bioschemaharvester/harvester/nmrXiv_harvester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-    </list>
+    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="chemotion-swagger-api Harvester" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -434,7 +429,14 @@
       <option name="project" value="LOCAL" />
       <updated>1715762340450</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="chemotion-swagger-api Harvester">
+      <created>1721808055983</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1721808055983</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -450,7 +452,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="extracting &amp; mapping licenses" />
     <MESSAGE value="New additions" />
     <MESSAGE value="New additions for info" />
     <MESSAGE value="transition phase" />
@@ -475,6 +476,7 @@
     <MESSAGE value="refactoring to basic code" />
     <MESSAGE value="measurementTechnique solved with string" />
     <MESSAGE value="Added Measurement CURIE for iri" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Measurement CURIE for iri" />
+    <MESSAGE value="chemotion-swagger-api Harvester" />
+    <option name="LAST_COMMIT_MESSAGE" value="chemotion-swagger-api Harvester" />
   </component>
 </project>

@@ -153,7 +153,7 @@ class ChemotionRepoHarvester(HarvesterBase):
 
             content = json.loads(harvest_object.content)
             log.debug("in import stage %s" % harvest_object.guid)
-            log.debug(content) # Occupying to much, space and time
+            log.debug(content)  # Occupying to much, space and time
 
             # get id
             package_dict["inchi_key"] = munge_title_to_name(harvest_object.guid)
@@ -192,14 +192,15 @@ class ChemotionRepoHarvester(HarvesterBase):
                 log.exception(f'License Error: {e}')
                 pass
 
-            self._extract_extras_image(package=package_dict, content_hasBioPart=content)
+            # self._extract_extras_image(package=package_dict, content_hasBioPart=content)
 
             # Chemical information by extracting BioChemEntity
-            content_about = content['isPartOf']['about']
-            content_hasBioPart = content_about[0]['hasBioChemEntityPart']
 
-            log.debug(content_about)
             try:
+                self._extract_extras_image(package=package_dict, content_hasBioPart=content)
+                content_about = content['isPartOf']['about']
+                content_hasBioPart = content_about[0]['hasBioChemEntityPart']
+
                 package_dict['inchi'] = content_hasBioPart['inChI']
                 package_dict['inchi_key'] = content_hasBioPart['inChIKey']
                 # smiles = content_hasBioPart['smiles']
@@ -209,8 +210,13 @@ class ChemotionRepoHarvester(HarvesterBase):
                 package_dict['mol_formula'] = content_hasBioPart['molecularFormula']
                 package_dict['iupacName'] = content_hasBioPart['iupacName']
 
-            except KeyError as e:
-                log.exception(f"Chemical Information Error: {e}")
+            except KeyError:
+                # when the inchi is not present, then it takes empty dict.
+                # Should find something better solution
+                content_hasBioPart = {}
+                package_dict['inchi'] = harvest_object.guid
+                package_dict['inchi_key'] = ''
+
                 pass
 
             try:
@@ -254,7 +260,6 @@ class ChemotionRepoHarvester(HarvesterBase):
 
                 author_list = content['author']
 
-
                 for author in author_list:
                     author_all = str()
                     author_all += author['name']
@@ -296,7 +301,6 @@ class ChemotionRepoHarvester(HarvesterBase):
             )
             return False
         return True
-
 
     def _set_config(self, source_config):
 
@@ -458,7 +462,7 @@ class ChemotionRepoHarvester(HarvesterBase):
                 'variableMeasured_name': values.get('name', ''),
                 'variableMeasured_propertyID': values.get('propertyID', ''),
                 'variableMeasured_value': values.get('value', ''),
-                #'variableMeasured_tsurl': converter_instance.expand(values.get('propertyID', '')),
+                # 'variableMeasured_tsurl': converter_instance.expand(values.get('propertyID', '')),
             }
 
             log.debug(f'Variable Measured: {variable_measured_dict}')
@@ -493,6 +497,9 @@ class ChemotionRepoHarvester(HarvesterBase):
 
             except Exception as e:
                 log.error(e)
+                pass
+        else:
+            pass
 
         # extracting date metadata as extra data.
         try:

@@ -9,7 +9,7 @@ class BioschemaharvesterPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.ITemplateHelpers)
 
     """
-    Bioschema Sitemap scrapping and harvesting
+    BioSchema Sitemap scrapping and harvesting
     
     """
 

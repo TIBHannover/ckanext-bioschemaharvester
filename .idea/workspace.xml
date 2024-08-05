@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="chemotion-swagger-api Harvester" />
+    <list default="true" id="7500d920-58ef-459b-a287-63096e9ab571" name="Changes" comment="release v0.1.5">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ckanext/bioschemaharvester/plugin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ckanext/bioschemaharvester/plugin.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,13 +95,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1637827814311</updated>
-    </task>
-    <task id="LOCAL-00001" summary="remove plugin python file">
-      <created>1644580562028</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1644580562028</updated>
     </task>
     <task id="LOCAL-00002" summary="remove plugin python file">
       <created>1644580586806</created>
@@ -436,7 +432,14 @@
       <option name="project" value="LOCAL" />
       <updated>1721808055983</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="release v0.1.5">
+      <created>1721901604099</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1721901604105</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -452,7 +455,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="New additions" />
     <MESSAGE value="New additions for info" />
     <MESSAGE value="transition phase" />
     <MESSAGE value="update text" />
@@ -477,6 +479,7 @@
     <MESSAGE value="measurementTechnique solved with string" />
     <MESSAGE value="Added Measurement CURIE for iri" />
     <MESSAGE value="chemotion-swagger-api Harvester" />
-    <option name="LAST_COMMIT_MESSAGE" value="chemotion-swagger-api Harvester" />
+    <MESSAGE value="release v0.1.5" />
+    <option name="LAST_COMMIT_MESSAGE" value="release v0.1.5" />
   </component>
 </project>
